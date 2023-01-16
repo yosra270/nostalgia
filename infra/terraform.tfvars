@@ -1,0 +1,6 @@
+resource_group_name  = "aks-resourcegrp1"
+location             = "westus2"
+cluster_name         = "aks-01"
+acr_name             = "projectacrforaks01"
+sql_name             = "sqlforaks01"
+kubernetes_version   = "1.23.8"
