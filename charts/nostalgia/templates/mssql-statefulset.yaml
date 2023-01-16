@@ -7,6 +7,7 @@ spec:
   selector:
     matchLabels:
       app: mssql
+  serviceName : mssql-service
   replicas: {{ .Values.sql.image.replicaCount }}
   template:
     metadata:

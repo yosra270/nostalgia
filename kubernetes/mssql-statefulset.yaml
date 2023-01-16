@@ -1,11 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-service
+  labels:
+    app: mssql
+spec:
+  selector:
+    app: mssql
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+      nodePort: 30201
+  type: NodePort
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mssql-deployment
+  name: mssql-statefulset
 spec:
   selector:
     matchLabels:
-      app: mssql
+      app: mssql 
+  serviceName : mssql-service
   replicas: 1
   template:
     metadata:
@@ -13,9 +30,8 @@ spec:
         app: mssql
     spec:
       terminationGracePeriodSeconds: 10
-      serviceName : mssql-service
       containers:
-      - name: mssql
+      - name: mssql-service
         image: liaisonintl/mssql-server-linux:latest
       # image: microsoft/mssql-server-linux
         resources:
@@ -41,19 +57,3 @@ spec:
       - name: mssql-persistent-storage
         persistentVolumeClaim:
           claimName: mssql-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mssql-service
-  labels:
-    app: mssql-service
-spec:
-  selector:
-    app: mssql
-  ports:
-    - protocol: TCP
-      port: 1433
-      targetPort: 1433
-      nodePort: 30201
-  type: NodePort
