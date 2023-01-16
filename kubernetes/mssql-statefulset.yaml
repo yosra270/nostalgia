@@ -13,6 +13,7 @@ spec:
         app: mssql
     spec:
       terminationGracePeriodSeconds: 10
+      serviceName : mssql-service
       containers:
       - name: mssql
         image: liaisonintl/mssql-server-linux:latest
@@ -45,6 +46,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mssql-service
+  labels:
+    app: mssql-service
 spec:
   selector:
     app: mssql
